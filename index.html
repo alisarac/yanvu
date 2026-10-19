@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Yanvu — tableti ikinci ekran yap / turn your tablet into a second screen</title>
+<title>Yanvu — tablet as a second screen / tablet ikinci ekran</title>
 <meta name="description" content="Yanvu: Android tableti Windows bilgisayarın için kablosuz ikinci ekran yapar. Windows programını buradan indir.">
 <link rel="icon" href="icon.png">
 <style>
   :root { color-scheme: dark light; }
   body { margin: 0 auto; padding: 40px 22px 80px; max-width: 44rem;
          font: 16px/1.65 Georgia, 'Times New Roman', serif; background: #14181f; color: #e9ebee; }
-  @media (prefers-color-scheme: light) { body { background: #f6f3ec; color: #22262c; } a { color: #1f4c9c; } }
   a { color: #b9c8e4; }
+  @media (prefers-color-scheme: light) { body { background: #f6f3ec; color: #22262c; } a { color: #1f4c9c; } }
   img { width: 84px; height: 84px; border-radius: 18px; display: block; }
   h1 { font-size: 1.7rem; margin: 22px 0 4px; font-weight: 500; }
   h2 { font-size: 1.15rem; margin: 34px 0 8px; font-weight: 500; }
@@ -20,13 +20,19 @@
          background: #3b6fd4; color: #fff; text-decoration: none; font-family: system-ui, sans-serif; font-size: 1rem; }
   .btn.alt { background: transparent; border: 1px solid currentColor; color: inherit; }
   .shot { width: 100%; height: auto; border-radius: 10px; margin: 14px 0 4px; }
+  .lang { float: right; font-family: system-ui, sans-serif; font-size: .95rem; }
+  .lang a { text-decoration: none; opacity: .6; }
+  .lang a.on { opacity: 1; font-weight: 600; }
   .small { font-size: .9rem; opacity: .7; }
   hr { border: 0; border-top: 1px solid currentColor; opacity: .18; margin: 44px 0; }
 </style>
 </head>
 <body>
 
+<nav class="lang"><a href="#tr" data-l="tr">Türkçe</a> · <a href="#en" data-l="en">English</a></nav>
 <img src="icon.png" alt="Yanvu">
+
+<div id="sayfa-tr" lang="tr">
 <h1>Yanvu</h1>
 <p class="sub">Android tableti Windows bilgisayarın için kablosuz ikinci ekran yapar.</p>
 
@@ -56,9 +62,9 @@
 
 <p class="small"><a href="https://alisarac.github.io/yanvu-legal/">Gizlilik politikası</a></p>
 
-<hr>
+</div>
 
-<div lang="en">
+<div id="sayfa-en" lang="en">
 <h1>Yanvu</h1>
 <p class="sub">Turns an Android tablet into a wireless second screen for your Windows PC.</p>
 
@@ -88,6 +94,24 @@
 
 <p class="small"><a href="https://alisarac.github.io/yanvu-legal/">Privacy policy</a></p>
 </div>
+
+<script>
+(function () {
+  function show(l) {
+    document.getElementById('sayfa-tr').hidden = l !== 'tr';
+    document.getElementById('sayfa-en').hidden = l !== 'en';
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang a').forEach(function (a) { a.classList.toggle('on', a.dataset.l === l); });
+  }
+  function pick() {
+    var h = location.hash.slice(1);
+    if (h === 'tr' || h === 'en') return h;
+    return (navigator.language || '').toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en';
+  }
+  window.addEventListener('hashchange', function () { show(pick()); });
+  show(pick());
+})();
+</script>
 
 </body>
 </html>
